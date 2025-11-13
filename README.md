@@ -37,8 +37,7 @@ Processing: Canvas API (Native browser image manipulation)
 ## 📷 Screenshots
 
 ### Main Interface
-![Main Interface](https://via.placeholder.com/800x500/0B0919/5343FF?text=Upload+%26+Process+Images)
-
+![Main Interface](https://github.com/akash15072004/Real-Time-Edge-Detection-Viewer/blob/main/Screenshot%202025-11-13%20215410.png)
 ### Edge Detection Results
 ![Edge Detection](https://via.placeholder.com/800x500/0B0919/FFFFFF?text=Canny+Edge+Detection+Output)
 
