@@ -1,239 +1,325 @@
-# Edge Detection Viewer - Web Component
 
-> 🌐 **TypeScript-based Web Viewer** for the Android + OpenCV-C++ + OpenGL Assessment
 
-This is the **web viewer component** (20% of the assessment) that demonstrates real-time edge detection processing using TypeScript, Canvas API, and modern web technologies.
+# Edge Detection Viewer – Web Component
 
----
+> 🌐 **TypeScript-based Web Viewer** for the *Android + OpenCV-C++ + OpenGL* Assessment
 
-## 🎯 Features Implemented
-
-### ✅ Core Requirements
-- **Image Upload Interface** - Drag & drop or file browse with sample image generator
-- **Real-time Edge Detection** - Canny edge detection algorithm implemented in TypeScript
-- **Performance Metrics Display** - FPS, resolution, and processing time tracking
-- **Interactive Controls** - Adjustable threshold parameters with auto-processing mode
-- **Multiple View Modes** - Original, Processed, and Split-screen comparison
-
-### ✨ Additional Features
-- **Modern UI/UX** - Professional gradient design with smooth animations
-- **Canvas API Processing** - Client-side image processing without external dependencies
-- **Modular Architecture** - Clean, typed TypeScript components
-- **Responsive Design** - Works on desktop, tablet, and mobile devices
+This repository contains the **Web Viewer Component** (20% of the overall assessment).
+It demonstrates real-time edge detection using **TypeScript, React, Canvas API**, and modern web tooling.
+This viewer will be used alongside the Android Native App (65%) and Documentation (15%).
 
 ---
 
-## 🔧 Tech Stack
+# 🎯 Features Implemented
+
+## ✅ Core Requirements
+
+* **Image Upload Interface** — Drag & drop or manual upload
+* **Real-time Edge Detection** using a custom TypeScript Canny implementation
+* **Performance Metrics** — FPS, resolution, and processing time
+* **Adjustable Threshold Controls**
+* **View Modes** — Original → Processed → Split View
+
+## ✨ Additional Enhancements
+
+* Modern, professional UI/UX
+* Canvas-based processing for high performance
+* Fully modular TypeScript architecture
+* Smooth transitions & animations
+* Responsive interface (mobile/tablet/desktop)
+
+---
+
+# 🔧 Tech Stack
 
 ```
-Frontend:  React 18 + TypeScript
-Build Tool: Vite (Fast HMR & Optimized Production Builds)
-Styling:   Tailwind CSS (Utility-first framework)
-Processing: Canvas API (Native browser image manipulation)
+Frontend:   React 18 + TypeScript
+Bundler:    Vite (fast HMR + optimized builds)
+Styling:    Tailwind CSS
+Processing: Canvas API (browser-native operations)
 ```
 
 ---
 
-## 📷 Screenshots
+# 📸 Screenshots
 
 ### Main Interface
+
 ![Main Interface](https://github.com/akash15072004/Real-Time-Edge-Detection-Viewer/blob/main/Screenshot%202025-11-13%20215410.png)
 
 ### Upload Image
+
 ![Upload Image](https://github.com/akash15072004/Real-Time-Edge-Detection-Viewer/blob/main/Screenshot%202025-11-13%20221318.png)
-### Edge Detection Results
+
+### Edge Detection Result
+
 ![Edge Detection](https://github.com/akash15072004/Real-Time-Edge-Detection-Viewer/blob/main/Screenshot%202025-11-13%20221827.png)
 
-### Split-Screen Comparison
+### Split-Screen View
+
 ![Split View](https://github.com/akash15072004/Real-Time-Edge-Detection-Viewer/blob/main/Screenshot%202025-11-13%20222311.png)
 
-### Split-Screen Comparison Result
-![Split-Screen Comparison Result](https://github.com/akash15072004/Real-Time-Edge-Detection-Viewer/blob/main/Screenshot%202025-11-13%20222321.png)
+### Final Comparison
 
+![Split-Screen Comparison Result](https://github.com/akash15072004/Real-Time-Edge-Detection-Viewer/blob/main/Screenshot%202025-11-13%20222321.png)
 
 ---
 
-## ⚙️ Setup Instructions
+# ⚙️ Setup Instructions (Android Studio Compatible)
 
-### Prerequisites
-- Node.js 18+ (or compatible runtime)
-- npm or pnpm package manager
+## 🔧 Prerequisites
 
-### Installation
+* Node.js 18+
+* npm or pnpm
+* Android Studio installed (for WebView integration)
+* Android device or emulator
+
+---
+
+## 📦 Installation
 
 ```bash
 # Install dependencies
 npm install
 
-# Start development server
+# Start development server (use for WebView live preview)
 npm run dev
 
-# Build for production
+# Build production bundle (used inside Android app)
 npm run build
 
-# Preview production build
+# Preview production build locally
 npm run preview
 ```
 
-### Access the Application
-- **Development**: `http://localhost:5173`
-- **Production**: Build files in `dist/` directory
+---
+
+# 📲 Accessing the Application
+
+## 👨‍💻 Development Mode (Live Reload on Android)
+
+Run:
+
+```bash
+npm run dev
+npx vite --host
+```
+
+You will get a network URL like:
+
+```
+http://192.168.x.x:5173
+```
+
+Load it inside Android WebView:
+
+```kotlin
+webView.settings.javaScriptEnabled = true
+webView.loadUrl("http://192.168.x.x:5173")
+```
 
 ---
 
-## 🧠 Architecture Overview
+## 📦 Production Mode (Offline inside Android App)
 
-### Project Structure
+Generate production files:
+
+```bash
+npm run build
+```
+
+Copy `dist/` folder to:
+
+```
+app/src/main/assets/dist/
+```
+
+Load inside WebView:
+
+```kotlin
+webView.settings.javaScriptEnabled = true
+webView.loadUrl("file:///android_asset/dist/index.html")
+```
+
+### Summary Table
+
+| Mode            | How to Run                        | Android Access                          |
+| --------------- | --------------------------------- | --------------------------------------- |
+| **Development** | `npm run dev` + `npx vite --host` | `http://<IP>:5173`                      |
+| **Production**  | `npm run build`                   | `file:///android_asset/dist/index.html` |
+
+---
+
+# 🧠 Architecture Overview
+
+## 📁 Project Structure
+
 ```
 /src
   /components
-    ImageUploader.tsx       # File upload & drag-drop interface
-    EdgeDetectionViewer.tsx # Canvas rendering & view modes
-    StatsPanel.tsx          # Performance metrics display
+    ImageUploader.tsx        # Drag-drop + file input
+    EdgeDetectionViewer.tsx  # Canvas + rendering logic
+    StatsPanel.tsx           # FPS, resolution, processing time
   /utils
-    edgeDetection.ts        # Canny edge detection algorithm
-  App.tsx                   # Main application & state management
-  main.tsx                  # Application entry point
+    edgeDetection.ts         # Full Canny implementation
+  App.tsx                    # State management & layout
+  main.tsx                   # Application entry point
 ```
-
-### Data Flow
-```
-1. User uploads image → ImageUploader component
-2. Image data (base64) → App state management
-3. Process button clicked → EdgeDetectionViewer
-4. Canvas API processes image → edgeDetection.ts utilities
-5. Canny algorithm applied:
-   - Gaussian blur (noise reduction)
-   - Sobel gradient calculation
-   - Non-maximum suppression
-   - Double threshold & hysteresis
-6. Processed image returned → Canvas display
-7. Performance stats calculated → StatsPanel
-```
-
-### Algorithm Implementation
-
-**Canny Edge Detection Steps:**
-1. **Gaussian Blur** - Reduce image noise using convolution
-2. **Grayscale Conversion** - Luminance-based RGB to gray
-3. **Sobel Gradient** - Calculate edge strength & direction
-4. **Non-Maximum Suppression** - Thin edges to single pixels
-5. **Hysteresis Thresholding** - Connect strong/weak edges
-
-**Key TypeScript Functions:**
-- `applyCannyEdgeDetection()` - Main processing pipeline
-- `gaussianBlur()` - Noise reduction filter
-- `sobelGradient()` - Edge detection operator
-- `nonMaxSuppression()` - Edge thinning
-- `hysteresis()` - Threshold-based edge linking
 
 ---
 
-## 🔗 Integration with Android App
+## 🔄 Data Flow
 
-### How This Web Viewer Connects to Native Code
+```
+1. User uploads an image → ImageUploader
+2. Image (base64) stored → App state
+3. Process clicked → EdgeDetectionViewer
+4. Canvas API extracts pixel data
+5. Canny pipeline executes:
+   • Gaussian blur
+   • Grayscale conversion
+   • Sobel gradient
+   • Non-max suppression
+   • Hysteresis thresholding
+6. Processed output rendered → Viewer
+7. StatsPanel calculates FPS & processing time
+```
 
-In a full implementation, the Android app would:
+---
 
-1. **Capture frames** from camera (Camera2 API / CameraX)
-2. **Send to JNI layer** for C++ processing via native method:
+## 🔬 Algorithm Implementation (TypeScript)
+
+### Steps in Canny Edge Detection:
+
+1. Gaussian Blur — noise removal
+2. Grayscale conversion
+3. Sobel gradient magnitude + direction
+4. Non-maximum suppression
+5. Double-threshold hysteresis
+
+### Key TS Functions:
+
+* `applyCannyEdgeDetection()`
+* `gaussianBlur()`
+* `sobelGradient()`
+* `nonMaxSuppression()`
+* `hysteresis()`
+
+---
+
+# 🔗 Integration with Android App
+
+This Web Viewer mirrors what the **native Android app** will do.
+
+### A full Android pipeline (not included here) would:
+
+1. Capture frames (Camera2 / CameraX)
+2. Send to native layer via JNI
+
    ```java
    public native byte[] processFrame(byte[] inputFrame);
    ```
-3. **OpenCV C++ processes** the frame (same Canny algorithm)
-4. **OpenGL ES renders** the result on Android device
-5. **Web API endpoint** (optional) serves processed frames to this web viewer via:
-   - WebSocket for real-time streaming
-   - REST API for static frame requests
-   - Base64-encoded image data
+3. OpenCV-C++ runs the same Canny algorithm
+4. OpenGL ES displays results
+5. (Optional) Send frames to Web Viewer via:
 
-**This web component demonstrates:**
-- The same algorithmic approach (Canny edge detection)
-- Performance metric tracking
-- Frame statistics display
-- TypeScript-based modular architecture
+   * WebSocket
+   * REST API
+   * Base64 encoded images
 
----
+### This Web Viewer Demonstrates:
 
-## 📊 Performance Benchmarks
-
-| Metric | Value (Average) |
-|--------|-----------------|
-| Processing Time | 15-50ms (depends on image size) |
-| Theoretical FPS | 20-60 fps |
-| Supported Resolutions | Up to 4K (browser dependent) |
-| Algorithm | Canny Edge Detection (5-stage) |
+* Same Canny algorithm
+* Performance metrics
+* Modular architecture
+* UI rendering pipeline
 
 ---
 
-## 🎨 UI/UX Design Principles
+# 📊 Performance Benchmarks
 
-- **Dark Theme** - Reduced eye strain for long development sessions
-- **Gradient Accents** - Professional purple/blue brand colors (#5343FF)
-- **Glassmorphism** - Frosted glass effect with backdrop blur
-- **Microinteractions** - Smooth hover states & animations
-- **Responsive Layout** - Mobile-first approach with grid system
-
----
-
-## 🚀 Future Enhancements
-
-### Potential Improvements
-- [ ] WebSocket integration for real-time Android frame streaming
-- [ ] Additional edge detection algorithms (Sobel, Prewitt, Laplacian)
-- [ ] WebGL-based rendering for GPU acceleration
-- [ ] Video file upload & frame-by-frame processing
-- [ ] Export processed images/videos
-- [ ] Comparison with OpenCV.js for validation
+| Metric               | Value                    |
+| -------------------- | ------------------------ |
+| Processing Time      | 15–50 ms                 |
+| FPS                  | 20–60 fps                |
+| Supported Resolution | Up to 4K                 |
+| Algorithm            | Canny (5-stage pipeline) |
 
 ---
 
-## 📝 Notes for Reviewers
+# 🎨 UI/UX Principles
 
-### Web Viewer Component (20% of Assessment)
-This project fulfills the **TypeScript web viewer** requirement by:
-- ✅ Displaying processed frames (static & uploaded images)
-- ✅ Showing frame statistics (FPS, resolution, processing time)
-- ✅ Demonstrating TypeScript project setup (`tsconfig.json`, modular structure)
-- ✅ Updating DOM dynamically with performance metrics
-- ✅ Professional UI demonstrating web development skills
-
-### Evaluation Criteria Coverage
-| Criteria | Implementation |
-|----------|----------------|
-| TypeScript Web Viewer (20%) | ✅ Complete with stats display |
-| Project Structure & Documentation (15%) | ✅ Modular components, detailed README |
-| **Total Coverage** | **35% of assessment** |
-
-### Android Components (Not Included)
-⚠️ **This web component does NOT include:**
-- Android SDK / Java / Kotlin code (requires Android Studio)
-- NDK native C++ libraries (requires NDK toolchain)
-- JNI integration (requires Java ↔ C++ bridge)
-- OpenGL ES rendering (requires OpenGL context on Android)
-- Camera feed integration (requires Android device)
-
-**For the remaining 65% of the assessment**, you'll need to develop the Android application separately using Android Studio.
+* Dark theme for visual comfort
+* Gradient accents (#5343FF)
+* Glassmorphism components
+* Smooth microinteractions
+* Mobile-first responsive design
 
 ---
 
-## 📞 Support & Resources
+# 🚀 Future Enhancements
 
-### Helpful Links
-- [Canny Edge Detection Algorithm](https://en.wikipedia.org/wiki/Canny_edge_detector)
-- [Canvas API Documentation](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API)
-- [TypeScript Handbook](https://www.typescriptlang.org/docs/)
-- [React Documentation](https://react.dev/)
-
-### Android Development Resources (for main assessment)
-- [Android Camera2 API](https://developer.android.com/training/camera2)
-- [OpenCV Android SDK](https://opencv.org/android/)
-- [JNI Programming Guide](https://docs.oracle.com/javase/8/docs/technotes/guides/jni/)
-- [OpenGL ES for Android](https://developer.android.com/develop/ui/views/graphics/opengl)
+* [ ] Real-time streaming from Android camera via WebSocket
+* [ ] More edge algorithms (Sobel, Laplacian, Prewitt)
+* [ ] GPU/WebGL acceleration
+* [ ] Video upload support
+* [ ] Export processed video/images
+* [ ] Comparison with OpenCV.js
 
 ---
 
-## 📄 License
+# 📝 Notes for Reviewers
+
+### Web Viewer Component — 20% of Assessment
+
+This project fulfills:
+
+✔ Web viewer with real-time processing
+✔ FPS + resolution + timing metrics
+✔ Modular TypeScript structure
+✔ Canvas-based Canny pipeline
+✔ Professional UI
+
+### Assessment Coverage
+
+| Component       | Weight  |
+| --------------- | ------- |
+| Web Viewer      | **20%** |
+| Documentation   | **15%** |
+| Total Delivered | **35%** |
+
+### Not Included (Part of Android App)
+
+⚠️ Not included in this repository:
+
+* Android native app
+* JNI / NDK processing
+* Camera pipeline
+* OpenGL rendering
+
+These must be developed in the **Android Studio** portion.
+
+---
+
+# 📞 Support & Resources
+
+### Web Resources
+
+* Canny Edge Detection
+* Canvas API
+* TypeScript Docs
+* React Docs
+
+### Android Resources
+
+* Camera2 API
+* OpenCV Android
+* JNI Guide
+* OpenGL ES for Android
+
+---
+
+# 📄 License
 
 This project is created for educational assessment purposes.
 
